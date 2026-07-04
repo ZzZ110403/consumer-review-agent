@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>消费者评论情感分析与购买建议智能体</title>
+    <link rel="stylesheet" href="./assets/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="workbench">
+        <header class="app-header">
+          <div>
+            <p class="course">AI4S 课程大作业</p>
+            <h1>消费者评论情感分析与购买建议智能体</h1>
+          </div>
+          <div class="status-badge" id="agentMode">待分析</div>
+        </header>
+
+        <section class="config-strip" aria-label="模型配置">
+          <label>
+            阿里云 API Key
+            <input id="apiKey" type="password" autocomplete="off" placeholder="sk-... 仅在当前浏览器中使用">
+          </label>
+          <label>
+            模型名称
+            <input id="modelName" type="text" value="qwen3.7-plus">
+          </label>
+          <label>
+            接口地址
+            <input id="baseUrl" type="text" value="https://dashscope.aliyuncs.com/compatible-mode/v1">
+          </label>
+        </section>
+
+        <section class="editor-panel">
+          <div class="editor-head">
+            <div>
+              <h2>评论数据输入</h2>
+              <p>CSV 字段建议为 product,rating,comment，也兼容 商品、评分、评论。</p>
+            </div>
+            <div class="button-group">
+              <button id="loadSample" type="button" class="secondary">载入样例</button>
+              <button id="downloadReport" type="button" class="secondary">下载报告</button>
+            </div>
+          </div>
+          <textarea id="csvInput" spellcheck="false"></textarea>
+          <div class="action-row">
+            <button id="analyzeButton" type="button">开始分析</button>
+            <span id="statusText">等待输入评论数据</span>
+          </div>
+        </section>
+
+        <section class="metric-grid" aria-label="核心指标">
+          <div class="metric">
+            <span>评论总数</span>
+            <strong id="totalCount">0</strong>
+          </div>
+          <div class="metric">
+            <span>负面率</span>
+            <strong id="negativeRate">0%</strong>
+          </div>
+          <div class="metric">
+            <span>主要问题</span>
+            <strong id="mainAspect">-</strong>
+          </div>
+          <div class="metric">
+            <span>购买建议</span>
+            <strong id="buySignal">-</strong>
+          </div>
+        </section>
+
+        <section class="analysis-layout">
+          <section class="panel">
+            <h2>智能体分析报告</h2>
+            <p id="summaryText">分析后将在这里生成面向消费者和商家的专业结论。</p>
+            <div class="report-columns">
+              <div>
+                <h3>关键洞察</h3>
+                <ul id="insightList"></ul>
+              </div>
+              <div>
+                <h3>购买建议</h3>
+                <ul id="adviceList"></ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h2>情感分布</h2>
+            <div id="sentimentBars" class="bars"></div>
+          </section>
+        </section>
+
+        <section class="analysis-layout">
+          <section class="panel">
+            <h2>关注点分布</h2>
+            <div id="aspectBars" class="bars"></div>
+          </section>
+
+          <section class="panel">
+            <h2>商品风险排序</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>商品</th>
+                  <th>评论数</th>
+                  <th>均分</th>
+                  <th>负面率</th>
+                </tr>
+              </thead>
+              <tbody id="productRows"></tbody>
+            </table>
+          </section>
+        </section>
+      </section>
+    </main>
+    <script src="./assets/app.js"></script>
+  </body>
+</html>
